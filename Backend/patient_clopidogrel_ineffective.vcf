@@ -1,0 +1,10 @@
+##fileformat=VCFv4.2
+##source=PharmaGuard_PGx_Simulator
+##INFO=<ID=GENE,Number=1,Type=String,Description="Pharmacogene">
+##INFO=<ID=RS,Number=1,Type=String,Description="dbSNP rsID">
+##INFO=<ID=STAR,Number=1,Type=String,Description="Star allele">
+##INFO=<ID=EFFECT,Number=1,Type=String,Description="Functional effect">
+#CHROM POS ID REF ALT QUAL FILTER INFO
+
+10 94761900 rs4244285 G A . PASS GENE=CYP2C19;RS=rs4244285;STAR=*2;EFFECT=no_function
+10 94781859 rs4986893 G A . PASS GENE=CYP2C19;RS=rs4986893;STAR=*3;EFFECT=no_function
