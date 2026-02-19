@@ -1,23 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Activity, Shield, Zap, Globe as GlobeIcon, Cpu, CheckCircle } from 'lucide-react';
 import { gsap } from 'gsap';
-
+import LiquidEther from '../components/ui/LiquidEther';
+import CurvedLoop from '../components/ui/CurvedLoop';
 
 const LandingPage: React.FC = () => {
     const navigate = useNavigate();
+    const [isScrolled, setIsScrolled] = useState(false);
 
-    React.useEffect(() => {
+    useEffect(() => {
         // Auto-redirect if already logged in
         const token = localStorage.getItem('token');
         if (token) {
             navigate('/dashboard');
         }
 
+        // Handle Scroll for Navbar
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+        window.addEventListener('scroll', handleScroll);
+
+        // Entrance Animations
         gsap.fromTo(".landing-fade-in",
             { opacity: 0, y: 30 },
             { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: "power2.out" }
         );
+
+        return () => window.removeEventListener('scroll', handleScroll);
     }, [navigate]);
 
     return (
@@ -30,13 +41,34 @@ const LandingPage: React.FC = () => {
                 }}>
             </div>
 
-            {/* Navbar */}
-            <nav className="relative z-50 flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
+            {/* Liquid Effect Background */}
+            <div className="fixed inset-0 z-[1] opacity-70 mix-blend-screen pointer-events-none">
+                <LiquidEther
+                    colors={['#06b6d4', '#3b82f6', '#1e293b']}
+                    mouseForce={20}
+                    cursorSize={100}
+                    isViscous
+                    viscous={30}
+                    iterationsViscous={32}
+                    iterationsPoisson={32}
+                    resolution={0.5}
+                    isBounce={false}
+                    autoDemo
+                    autoSpeed={0.5}
+                    autoIntensity={2.2}
+                    takeoverDuration={0.25}
+                    autoResumeDelay={3000}
+                    autoRampDuration={0.6}
+                />
+            </div>
+
+            {/* Navbar (Scroll triggered) */}
+            <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 flex items-center justify-between px-8 mx-auto ${isScrolled ? 'py-4 max-w-5xl mt-4 bg-slate-900/60 backdrop-blur-xl border border-white/10 shadow-2xl rounded-full' : 'py-6 max-w-7xl'}`}>
                 <div className="flex items-center gap-2">
                     <div className="w-8 h-8 bg-cyan-500 rounded-lg flex items-center justify-center">
                         <Activity className="text-[#020617]" size={20} />
                     </div>
-                    <span className="text-xl font-bold tracking-tight">PharmaGuard</span>
+                    <span className={`font-bold tracking-tight transition-all duration-500 ${isScrolled ? 'text-lg' : 'text-xl'}`}>PrecisionRx</span>
                 </div>
                 <button
                     onClick={() => navigate('/auth')}
@@ -47,42 +79,44 @@ const LandingPage: React.FC = () => {
             </nav>
 
             {/* Hero Section */}
-            <main className="relative z-10 pt-20 pb-20 px-6 max-w-7xl mx-auto text-center flex flex-col items-center justify-center min-h-[80vh]">
+            <main className="relative z-10 pt-32 pb-20 px-6 max-w-7xl mx-auto text-center flex flex-col items-center justify-center min-h-[80vh]">
                 <div className="landing-fade-in inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/50 border border-cyan-800 text-cyan-400 text-xs font-bold uppercase tracking-widest mb-8">
                     <Zap size={12} /> Pharmacogenomics Redefined
                 </div>
 
-                <h1 className="landing-fade-in text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-500">
-                    Precision Medicine for<br />the Digital Age
+                <h1 className="landing-fade-in text-5xl md:text-7xl font-bold tracking-tight mb-6 text-slate-100 drop-shadow-lg">
+                    Precision Medicine,<br />Powered by Your DNA
                 </h1>
 
                 <p className="landing-fade-in text-lg text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed">
-                    PharmaGuard turns genomic data into actionable clinical insights.
+                    PrecisionRx turns genomic data into actionable clinical insights.
                     Prevent adverse drug events and optimize therapy with AI-driven pharmacogenomics.
                 </p>
 
-                <div className="landing-fade-in flex flex-col sm:flex-row items-center justify-center gap-4">
+                <div className="landing-fade-in flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
                     <button
                         onClick={() => navigate('/auth')}
-                        className="px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-[#020617] font-bold rounded-full transition-all hover:shadow-[0_0_20px_rgba(6,182,212,0.4)]"
+                        className="px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-[#020617] font-bold rounded-full transition-all hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:-translate-y-1"
                     >
                         Join the Revolution
                     </button>
-                    <div className="flex flex-col items-start">
+                    <div className="flex items-center bg-slate-800/50 border border-slate-700 rounded-full px-6 py-4 gap-4 backdrop-blur-sm">
                         <span className="text-2xl font-mono text-cyan-400 font-bold">99.8%</span>
-                        <span className="text-[10px] text-slate-500 uppercase tracking-wider">Accuracy Rate</span>
+                        <div className="w-[1px] h-8 bg-slate-600"></div>
+                        <span className="text-[10px] text-slate-400 uppercase tracking-widest text-left leading-tight">Clinical<br />Accuracy</span>
                     </div>
                 </div>
 
-                {/* Central Visual / Globe */}
-                {/* Ambience - Reduced and moved up */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-cyan-900/10 blur-[120px] -z-10 rounded-full pointer-events-none"></div>
+                {/* Central Visual */}
+                <div className="landing-fade-in relative w-full flex justify-center mt-8 -z-10 pointer-events-none text-cyan-400">
+                    <CurvedLoop marqueeText="PHARMACOGENOMICS" curveAmount={400} speed={1} />
+                </div>
             </main>
 
             {/* Feature Stack */}
             <section className="relative z-10 py-24 px-6 max-w-7xl mx-auto">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold mb-4">The PharmaGuard Stack</h2>
+                    <h2 className="text-3xl font-bold mb-4">The PrecisionRx Stack</h2>
                     <p className="text-slate-400">Engineered to reduce clinical risk without sacrificing efficiency.</p>
                 </div>
 
@@ -108,9 +142,9 @@ const LandingPage: React.FC = () => {
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
                     <div className="flex items-center gap-2">
                         <Activity className="text-cyan-500" size={20} />
-                        <span className="font-bold text-slate-200">PharmaGuard</span>
+                        <span className="font-bold text-slate-200">PrecisionRx</span>
                     </div>
-                    <p className="text-slate-500 text-sm">© 2026 PharmaGuard HealthTech. All rights reserved.</p>
+                    <p className="text-slate-500 text-sm">© 2026 PrecisionRx HealthTech. All rights reserved.</p>
                     <div className="flex gap-6 text-sm font-bold text-slate-400">
                         <a href="#" className="hover:text-cyan-400 transition-colors">Privacy</a>
                         <a href="#" className="hover:text-cyan-400 transition-colors">Terms</a>

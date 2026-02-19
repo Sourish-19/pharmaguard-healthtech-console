@@ -12,12 +12,7 @@ const Header = () => (
             <span className="text-cyan-500">v2.4.1-RC</span>
         </div>
 
-        <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2 bg-secondary/50 rounded-lg px-3 py-1.5 border border-border">
-                <span className="text-xs text-muted-foreground font-mono">PID:</span>
-                <span className="text-xs font-bold text-cyan-400 font-mono">#8821-X</span>
-            </div>
-        </div>
+
     </header>
 );
 

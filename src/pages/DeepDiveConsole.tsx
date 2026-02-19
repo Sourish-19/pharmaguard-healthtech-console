@@ -68,7 +68,7 @@ const DeepDiveConsole: React.FC = () => {
       const headers = ['Gene', 'RSID', 'Chromosome', 'Position', 'Genotype (Diplotype)', 'Predicted Phenotype'];
       const csvContent = [headers.join(','), mainFinding.join(',')].join('\n');
 
-      downloadCSV(csvContent, `pharmaguard_summary_${analysisData.patient_id}.csv`);
+      downloadCSV(csvContent, `precisionrx_summary_${analysisData.patient_id}.csv`);
       return;
     }
 
@@ -87,7 +87,7 @@ const DeepDiveConsole: React.FC = () => {
       ...rows.map(row => row.join(','))
     ].join('\n');
 
-    downloadCSV(csvContent, `pharmaguard_analysis_${analysisData.patient_id}.csv`);
+    downloadCSV(csvContent, `precisionrx_analysis_${analysisData.patient_id}.csv`);
   };
 
   const downloadCSV = (content: string, filename: string) => {
@@ -105,7 +105,7 @@ const DeepDiveConsole: React.FC = () => {
     if (!analysisData) return;
 
     const shareData = {
-      title: 'PharmaGuard Genomic Report',
+      title: 'PrecisionRx Genomic Report',
       text: `Genomic Analysis for ${analysisData.drug}: ${analysisData.risk_assessment.risk_label} risk detected. Phenotype: ${analysisData.pharmacogenomic_profile.phenotype}.`,
       url: window.location.href
     };
@@ -193,7 +193,7 @@ const DeepDiveConsole: React.FC = () => {
               <Activity size={24} className="text-black" />
             </div>
             <div>
-              <h1 className="text-3xl font-black uppercase tracking-tighter leading-none mb-1">PharmaGuard</h1>
+              <h1 className="text-3xl font-black uppercase tracking-tighter leading-none mb-1">PrecisionRx</h1>
               <p className="text-xs font-bold tracking-[0.2em] uppercase text-gray-600">Precision Medicine Panel</p>
             </div>
           </div>
@@ -294,7 +294,7 @@ const DeepDiveConsole: React.FC = () => {
             <div>
               <div className="border-b border-black mb-2 h-8"></div>
               <p className="text-xs font-bold uppercase">Electronically Signed By</p>
-              <p className="text-sm">PharmaGuard AI System v2.4</p>
+              <p className="text-sm">PrecisionRx AI System v2.4</p>
             </div>
             <div>
               <div className="border-b border-black mb-2 h-8"></div>
@@ -304,7 +304,7 @@ const DeepDiveConsole: React.FC = () => {
           </div>
           <p className="text-[10px] text-gray-400 mt-8 text-center uppercase tracking-wider">
             This report is a clinical decision support tool. Final dosing decisions are the responsibility of the treating physician.
-            <br />CONFIDENTIAL • PHARMAGUARD INC. • {new Date().getFullYear()}
+            <br />CONFIDENTIAL • PRECISIONRX INC. • {new Date().getFullYear()}
           </p>
         </div>
 

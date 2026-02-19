@@ -19,5 +19,5 @@ Write-Host "Checking dependencies..." -ForegroundColor Cyan
 pip install -r requirements.txt
 
 # Run the server
-Write-Host "Starting PharmaGuard Backend..." -ForegroundColor Green
+Write-Host "Starting PrecisionRx Backend..." -ForegroundColor Green
 uvicorn app.main:app --reload --host 127.0.0.1 --port 8000

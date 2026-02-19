@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 MONGODB_URL = os.getenv("MONGODB_URL")
-DB_NAME = os.getenv("DB_NAME", "pharmaguard")
+DB_NAME = os.getenv("DB_NAME", "precisionrx")
 
 import certifi
 

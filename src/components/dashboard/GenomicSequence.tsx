@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { Variant } from '../../types';
-import { Scan, ZoomIn, ZoomOut, Maximize2, Crosshair } from 'lucide-react';
+import { Scan, ZoomIn, ZoomOut, Maximize2, Minimize2, Crosshair } from 'lucide-react';
 
 interface GenomicSequenceProps {
   variants: Variant[];
@@ -10,6 +10,38 @@ interface GenomicSequenceProps {
 const GenomicSequence: React.FC<GenomicSequenceProps> = ({ variants }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const helixRef = useRef<SVGSVGElement>(null);
+
+  const [zoom, setZoom] = useState(400);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      containerRef.current?.requestFullscreen().catch(err => console.error(err));
+    } else {
+      document.exitFullscreen();
+    }
+  };
+
+  const handleAnalyze = () => {
+    setIsAnalyzing(true);
+    // Speed up scanner animation temporarily
+    gsap.to(".scanner-line", { duration: 0.5, ease: "linear", repeat: 5, yoyo: true });
+
+    setTimeout(() => {
+      setIsAnalyzing(false);
+      // Restore normal scanner speed
+      gsap.to(".scanner-line", { duration: 4, ease: "linear", repeat: -1, yoyo: true });
+    }, 3000);
+  };
 
   useEffect(() => {
     if (!helixRef.current) return;
@@ -119,25 +151,58 @@ const GenomicSequence: React.FC<GenomicSequenceProps> = ({ variants }) => {
       <div className="absolute top-6 right-8 flex flex-col items-end z-20 space-y-2">
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/80 border border-slate-700 backdrop-blur-sm">
           <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-          <span className="text-[10px] text-slate-300 font-mono font-bold">CONNECTED</span>
+          <span className="text-[10px] text-slate-300 font-mono font-bold">{isAnalyzing ? 'ANALYZING...' : 'CONNECTED'}</span>
         </div>
-        <span className="text-[9px] text-slate-500 font-mono">ZOOM: 400x</span>
+        <span className="text-[9px] text-slate-500 font-mono">ZOOM: {zoom}x</span>
       </div>
 
       {/* 3D Helix Placeholder */}
-      <svg ref={helixRef} width="350" height="500" viewBox="-40 0 350 400" className="mt-4 z-10 drop-shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+      <svg
+        ref={helixRef}
+        width="350"
+        height="500"
+        viewBox="-40 0 350 400"
+        className="mt-4 z-10 drop-shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-transform duration-300"
+        style={{ transform: `scale(${zoom / 400})` }}
+      >
         {renderHelix()}
       </svg>
 
       {/* Controls */}
       <div className="absolute bottom-8 z-20 flex gap-3 p-2 bg-slate-900/80 backdrop-blur rounded-2xl border border-slate-700/50 shadow-xl">
-        <button className="p-2.5 rounded-xl hover:bg-slate-700 text-slate-400 hover:text-white transition-all"><ZoomOut size={18} /></button>
-        <button className="px-6 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-white font-bold text-xs uppercase tracking-widest shadow-lg shadow-cyan-500/20 flex items-center gap-2">
-          <Crosshair size={14} /> Analyze Region
+        <button
+          onClick={() => setZoom(z => Math.max(100, z - 50))}
+          className="p-2.5 rounded-xl hover:bg-slate-700 text-slate-400 hover:text-white transition-all disabled:opacity-50"
+          disabled={zoom <= 100}
+        >
+          <ZoomOut size={18} />
         </button>
-        <button className="p-2.5 rounded-xl hover:bg-slate-700 text-slate-400 hover:text-white transition-all"><ZoomIn size={18} /></button>
+        <button
+          onClick={handleAnalyze}
+          disabled={isAnalyzing}
+          className="px-6 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-white font-bold text-xs uppercase tracking-widest shadow-lg shadow-cyan-500/20 flex items-center gap-2 disabled:opacity-70 disabled:cursor-wait transition-all"
+        >
+          {isAnalyzing ? (
+            <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+          ) : (
+            <Crosshair size={14} />
+          )}
+          {isAnalyzing ? "Analyzing..." : "Analyze Region"}
+        </button>
+        <button
+          onClick={() => setZoom(z => Math.min(1000, z + 50))}
+          className="p-2.5 rounded-xl hover:bg-slate-700 text-slate-400 hover:text-white transition-all disabled:opacity-50"
+          disabled={zoom >= 1000}
+        >
+          <ZoomIn size={18} />
+        </button>
         <div className="w-[1px] h-6 bg-slate-700 my-auto"></div>
-        <button className="p-2.5 rounded-xl hover:bg-slate-700 text-slate-400 hover:text-white transition-all"><Maximize2 size={18} /></button>
+        <button
+          onClick={toggleFullscreen}
+          className="p-2.5 rounded-xl hover:bg-slate-700 text-slate-400 hover:text-white transition-all"
+        >
+          {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+        </button>
       </div>
     </div>
   );

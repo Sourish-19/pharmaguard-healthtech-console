@@ -36,7 +36,7 @@ app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 # ==============================
 @app.get("/")
 def home():
-    return {"message": "PharmaGuard Backend Running Successfully"}
+    return {"message": "PrecisionRx Backend Running Successfully"}
 
 
 @app.get("/health")

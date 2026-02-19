@@ -23,7 +23,7 @@ const Sidebar = () => {
                 </div>
                 {!collapsed && (
                     <div className="flex flex-col relative z-10">
-                        <span className="font-bold text-xl tracking-tight text-white leading-none">PharmaGuard</span>
+                        <span className="font-bold text-xl tracking-tight text-white leading-none">PrecisionRx</span>
                         <span className="text-[10px] text-cyan-500 font-mono tracking-widest uppercase mt-1">Enterprise v2.4</span>
                     </div>
                 )}
@@ -62,24 +62,13 @@ const Sidebar = () => {
                 })}
             </nav>
 
-            {/* User Profile / Collapse */}
+            {/* Collapse Button */}
             <div className={`border-t border-cyan-500/30 bg-black/20 ${collapsed ? 'p-4' : 'p-6'}`}>
                 <button
                     onClick={() => setCollapsed(!collapsed)}
-                    className={`w-full flex items-center py-3 text-slate-400 hover:text-white transition-colors hover:bg-white/5 rounded-lg ${collapsed ? 'justify-center' : 'gap-4 px-4'}`}
+                    className={`w-full flex items-center py-3 text-slate-400 hover:text-white transition-colors hover:bg-white/5 rounded-lg justify-center`}
                 >
-                    {collapsed ? <Menu size={20} /> : (
-                        <>
-                            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-slate-800 border border-slate-700 text-xs font-bold text-slate-400">
-                                JD
-                            </div>
-                            <div className="text-left">
-                                <p className="text-xs font-bold text-white">Dr. John Doe</p>
-                                <p className="text-[10px] text-slate-500">Chief Geneticist</p>
-                            </div>
-                            <X size={16} className="ml-auto opacity-50" />
-                        </>
-                    )}
+                    <Menu size={20} />
                 </button>
             </div>
         </aside>

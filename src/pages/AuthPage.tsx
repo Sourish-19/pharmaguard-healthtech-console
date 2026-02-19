@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Activity, ArrowRight, Shield, Lock, CheckCircle2, ChevronLeft, User, KeyRound } from "lucide-react";
 import { cn } from "@/lib/utils";
+import LiquidEther from "../components/ui/LiquidEther";
 
 export const AuthPage = () => {
     const navigate = useNavigate();
@@ -49,26 +50,56 @@ export const AuthPage = () => {
     };
 
     return (
-        <div className="min-h-screen w-full flex bg-white dark:bg-black text-slate-900 dark:text-slate-100 font-sans selection:bg-cyan-500/30">
+        <div className="min-h-screen w-full flex flex-col lg:flex-row bg-[#020617] text-slate-100 font-sans selection:bg-cyan-500/30 relative overflow-y-auto overflow-x-hidden">
 
-            {/* Left Side - Form */}
-            <div className="w-full lg:w-1/2 flex items-center justify-center p-8 relative">
+            {/* Background Grid */}
+            <div className="fixed inset-0 z-0 opacity-20 pointer-events-none"
+                style={{
+                    backgroundImage: 'linear-gradient(#1e293b 1px, transparent 1px), linear-gradient(90deg, #1e293b 1px, transparent 1px)',
+                    backgroundSize: '40px 40px'
+                }}>
+            </div>
+
+            {/* Liquid Effect Background */}
+            <div className="fixed inset-0 z-[1] opacity-70 mix-blend-screen pointer-events-none">
+                <LiquidEther
+                    colors={['#06b6d4', '#3b82f6', '#1e293b']}
+                    mouseForce={20}
+                    cursorSize={100}
+                    isViscous
+                    viscous={30}
+                    iterationsViscous={32}
+                    iterationsPoisson={32}
+                    resolution={0.5}
+                    isBounce={false}
+                    autoDemo
+                    autoSpeed={0.5}
+                    autoIntensity={2.2}
+                    takeoverDuration={0.25}
+                    autoResumeDelay={3000}
+                    autoRampDuration={0.6}
+                />
+            </div>
+
+            {/* Left Side - Form Container */}
+            <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 relative z-10 min-h-screen lg:min-h-0 py-24 lg:py-12">
                 {/* Back to Home Button */}
                 <button
                     onClick={() => navigate('/')}
-                    className="absolute top-8 left-8 flex items-center gap-2 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors font-medium text-sm"
+                    className="absolute top-8 left-8 flex items-center gap-2 text-slate-400 hover:text-white transition-colors font-medium text-sm bg-slate-900/40 backdrop-blur-md px-4 py-2 rounded-full border border-slate-700/50"
                 >
                     <ChevronLeft size={16} /> Back to Home
                 </button>
 
-                <div className="max-w-md w-full space-y-8">
+                {/* Glassmorphic Auth Card */}
+                <div className="max-w-md w-full p-8 sm:p-10 rounded-3xl bg-slate-900/60 backdrop-blur-xl border border-white/10 shadow-2xl space-y-8 mt-12 lg:mt-0">
                     <div className="text-left">
-                        <h1 className="text-4xl font-bold tracking-tight mb-2">
+                        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3 text-white">
                             {isSignUp ? "Create an Account" : "Welcome back!"}
                         </h1>
-                        <p className="text-slate-500 dark:text-slate-400">
+                        <p className="text-sm sm:text-base text-slate-400">
                             {isSignUp
-                                ? "Join PharmaGuard to access AI-driven genomic insights."
+                                ? "Join PrecisionRx to access AI-driven genomic insights."
                                 : "Securely access your genomic analysis dashboard."}
                         </p>
                     </div>
@@ -76,16 +107,16 @@ export const AuthPage = () => {
                     <form onSubmit={handleAuth} className="space-y-5">
                         {isSignUp && (
                             <div className="space-y-2 animate-in slide-in-from-left-4 fade-in duration-300">
-                                <label className="text-sm font-medium leading-none" htmlFor="name">Full Name</label>
+                                <label className="text-sm font-medium leading-none text-slate-300" htmlFor="name">Full Name</label>
                                 <div className="relative">
-                                    <User className="absolute left-3 top-3 text-slate-400" size={16} />
+                                    <User className="absolute left-3 top-3.5 text-slate-500" size={16} />
                                     <input
                                         type="text"
                                         id="name"
                                         placeholder="Dr. Sarah Connor"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        className="flex h-12 w-full rounded-md border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 px-3 pl-10 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all font-medium"
+                                        className="flex h-12 w-full rounded-xl border border-white/10 bg-white/5 px-3 pl-10 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 transition-all font-medium placeholder:text-slate-600"
                                         required={isSignUp}
                                     />
                                 </div>
@@ -93,43 +124,43 @@ export const AuthPage = () => {
                         )}
 
                         <div className="space-y-2">
-                            <label className="text-sm font-medium leading-none" htmlFor="email">Email</label>
+                            <label className="text-sm font-medium leading-none text-slate-300" htmlFor="email">Email</label>
                             <input
                                 type="email"
                                 id="email"
                                 placeholder="doctor@clinic.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="flex h-12 w-full rounded-md border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                                className="flex h-12 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 transition-all placeholder:text-slate-600"
                                 required
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-sm font-medium leading-none" htmlFor="password">Password</label>
+                            <label className="text-sm font-medium leading-none text-slate-300" htmlFor="password">Password</label>
                             <input
                                 type="password"
                                 id="password"
                                 placeholder="••••••••"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="flex h-12 w-full rounded-md border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                                className="flex h-12 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 transition-all placeholder:text-slate-600"
                                 required
                             />
                         </div>
 
                         {isSignUp && (
                             <div className="space-y-2 animate-in slide-in-from-left-4 fade-in duration-300">
-                                <label className="text-sm font-medium leading-none" htmlFor="confirmPassword">Confirm Password</label>
+                                <label className="text-sm font-medium leading-none text-slate-300" htmlFor="confirmPassword">Confirm Password</label>
                                 <div className="relative">
-                                    <KeyRound className="absolute left-3 top-3 text-slate-400" size={16} />
+                                    <KeyRound className="absolute left-3 top-3.5 text-slate-500" size={16} />
                                     <input
                                         type="password"
                                         id="confirmPassword"
                                         placeholder="••••••••"
                                         value={confirmPassword}
                                         onChange={(e) => setConfirmPassword(e.target.value)}
-                                        className="flex h-12 w-full rounded-md border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 px-3 pl-10 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                                        className="flex h-12 w-full rounded-xl border border-white/10 bg-white/5 px-3 pl-10 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 transition-all placeholder:text-slate-600"
                                         required={isSignUp}
                                     />
                                 </div>
@@ -139,7 +170,7 @@ export const AuthPage = () => {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full h-12 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-md transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed mt-6"
+                            className="w-full h-12 bg-cyan-500 hover:bg-cyan-400 text-[#020617] font-bold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed mt-8 shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_25px_rgba(6,182,212,0.5)]"
                         >
                             {isLoading ? (
                                 <>
@@ -154,13 +185,13 @@ export const AuthPage = () => {
                         </button>
                     </form>
 
-                    <div className="text-center pt-4">
-                        <p className="text-sm text-slate-500 mb-2">
+                    <div className="text-center pt-2">
+                        <p className="text-sm text-slate-400 mb-3">
                             {isSignUp ? "Already have an account?" : "Don't have an account?"}
                         </p>
                         <button
                             onClick={() => setIsSignUp(!isSignUp)}
-                            className="text-cyan-600 hover:text-cyan-500 dark:text-cyan-400 dark:hover:text-cyan-300 font-bold text-sm transition-colors"
+                            className="text-cyan-400 hover:text-cyan-300 font-bold text-sm transition-colors py-2 px-4 rounded-full border border-cyan-500/20 bg-cyan-500/10 hover:bg-cyan-500/20"
                         >
                             {isSignUp ? "Sign In instead" : "Create an Account"}
                         </button>
@@ -169,35 +200,33 @@ export const AuthPage = () => {
             </div>
 
             {/* Right Side - Visuals */}
-            <div className="hidden lg:flex w-1/2 bg-slate-950 relative overflow-hidden items-center justify-center p-12">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-cyan-900/40 via-slate-950 to-slate-950"></div>
-                <div className="absolute inset-0 opacity-20"
-                    style={{ backgroundImage: 'linear-gradient(#06b6d4 1px, transparent 1px), linear-gradient(90deg, #06b6d4 1px, transparent 1px)', backgroundSize: '60px 60px' }}>
-                </div>
-
+            <div className="hidden lg:flex w-1/2 relative items-center justify-center p-12 z-10 min-h-screen lg:min-h-0">
                 <div className="relative z-10 max-w-lg space-y-6">
-                    <div className="p-6 rounded-2xl bg-white/5 border border-cyan-500/30 backdrop-blur-md shadow-2xl space-y-4">
-                        <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 mb-4">
-                            <Shield size={24} />
+                    {/* Security Card */}
+                    <div className="p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md shadow-2xl space-y-5 transform hover:-translate-y-2 transition-transform duration-500">
+                        <div className="w-14 h-14 rounded-2xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 mb-2 border border-cyan-500/30">
+                            <Shield size={28} />
                         </div>
-                        <h2 className="text-2xl font-bold text-white">Enterprise-Grade Security</h2>
-                        <p className="text-slate-400 leading-relaxed">
-                            PharmaGuard utilizes end-to-end encryption complying with HIPAA and GDPR standards, ensuring your patient's genomic data remains sovereign.
+                        <h2 className="text-2xl font-bold text-white tracking-tight">Enterprise-Grade Security</h2>
+                        <p className="text-slate-300 leading-relaxed text-sm">
+                            PrecisionRx utilizes end-to-end encryption complying with HIPAA and GDPR standards, ensuring your patient's genomic data remains sovereign and secure.
                         </p>
-                        <div className="flex gap-3 pt-4 border-t border-cyan-500/30">
-                            <div className="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center gap-1">
-                                <CheckCircle2 size={12} /> HIPAA Compliant
+                        <div className="flex gap-3 pt-6 border-t border-white/10">
+                            <div className="px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center gap-1.5">
+                                <CheckCircle2 size={14} /> HIPAA Compliant
                             </div>
-                            <div className="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold flex items-center gap-1">
-                                <Lock size={12} /> SOC2 Ready
+                            <div className="px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold flex items-center gap-1.5">
+                                <Lock size={14} /> SOC2 Ready
                             </div>
                         </div>
                     </div>
 
-                    <div className="p-6 rounded-2xl bg-white/5 border border-cyan-500/30 backdrop-blur-md shadow-2xl opacity-60 scale-95 origin-top">
-                        <div className="h-4 w-1/3 bg-slate-700/50 rounded mb-4"></div>
-                        <div className="h-2 w-full bg-slate-700/30 rounded mb-2"></div>
-                        <div className="h-2 w-2/3 bg-slate-700/30 rounded"></div>
+                    {/* Minimal decorative element matching standard layout design */}
+                    <div className="p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md shadow-2xl opacity-50 scale-[0.98] origin-top translate-y-[-10px]">
+                        <div className="h-4 w-1/3 bg-slate-700/50 rounded-full mb-5"></div>
+                        <div className="h-2 w-full bg-slate-700/30 rounded-full mb-3"></div>
+                        <div className="h-2 w-5/6 bg-slate-700/30 rounded-full mb-3"></div>
+                        <div className="h-2 w-4/6 bg-slate-700/30 rounded-full"></div>
                     </div>
                 </div>
             </div>

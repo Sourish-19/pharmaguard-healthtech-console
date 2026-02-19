@@ -1,5 +1,5 @@
 ##fileformat=VCFv4.2
-##source=PharmaGuard_PGx_Simulator
+##source=PrecisionRx_PGx_Simulator
 ##INFO=<ID=GENE,Number=1,Type=String,Description="Pharmacogene">
 ##INFO=<ID=RS,Number=1,Type=String,Description="dbSNP rsID">
 ##INFO=<ID=STAR,Number=1,Type=String,Description="Star allele">
