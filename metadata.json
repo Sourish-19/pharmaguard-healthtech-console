@@ -1,0 +1,7 @@
+{
+  "name": "PharmaGuard HealthTech Console",
+  "description": "A professional-grade pharmacogenomics dashboard for genomic data analysis, drug-gene interactions, and clinical decision support.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
