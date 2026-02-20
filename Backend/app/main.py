@@ -21,13 +21,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.on_event("startup")
-async def startup_db_client():
-    db.connect()
+# @app.on_event("startup")
+# async def startup_db_client():
+#     db.connect()
 
-@app.on_event("shutdown")
-async def shutdown_db_client():
-    db.close()
+# @app.on_event("shutdown")
+# async def shutdown_db_client():
+#     db.close()
 
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 
