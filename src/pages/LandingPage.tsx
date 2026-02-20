@@ -10,12 +10,6 @@ const LandingPage: React.FC = () => {
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
-        // Auto-redirect if already logged in
-        const token = localStorage.getItem('token');
-        if (token) {
-            navigate('/dashboard');
-        }
-
         // Handle Scroll for Navbar
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
@@ -95,7 +89,7 @@ const LandingPage: React.FC = () => {
 
                 <div className="landing-fade-in flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
                     <button
-                        onClick={() => navigate('/auth')}
+                        onClick={() => navigate('/intake')}
                         className="px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-[#020617] font-bold rounded-full transition-all hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:-translate-y-1"
                     >
                         Join the Revolution

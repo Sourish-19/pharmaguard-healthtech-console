@@ -181,16 +181,9 @@ const SettingsPage = () => {
                     ))}
                 </div>
 
-                {/* Logout Action */}
+                {/* Version Footer */}
                 <div className="settings-item pt-4 border-t border-slate-800">
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-2 text-red-500 hover:text-red-400 transition-colors text-sm font-medium px-2 py-1"
-                    >
-                        <LogOut size={16} />
-                        Log Out
-                    </button>
-                    <p className="mt-4 text-[10px] text-slate-600 font-mono px-2">
+                    <p className="mt-4 text-[10px] text-slate-600 font-mono px-2 text-center w-full">
                         PrecisionRx v2.4.1 • All systems operational
                     </p>
                 </div>
