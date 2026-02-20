@@ -65,7 +65,7 @@ const LandingPage: React.FC = () => {
                     <span className={`font-bold tracking-tight transition-all duration-500 ${isScrolled ? 'text-lg' : 'text-xl'}`}>PrecisionRx</span>
                 </div>
                 <button
-                    onClick={() => navigate('/auth')}
+                    onClick={() => navigate('/intake')}
                     className="flex items-center gap-2 px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-[#020617] font-bold rounded-full transition-all hover:scale-105"
                 >
                     Get Started <ArrowRight size={16} />
